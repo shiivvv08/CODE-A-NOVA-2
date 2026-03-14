@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Sign-Up Page</title>
+</head>
+
+<body>
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Auth UI</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Segoe UI", sans-serif;
+            }
+
+            body {
+                height: 100vh;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .container {
+                width: 350px;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border-radius: 15px;
+                padding: 30px;
+                color: white;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            }
+
+            h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .input-group {
+                margin-bottom: 15px;
+            }
+
+            .input-group input {
+                width: 100%;
+                padding: 10px;
+                border: none;
+                border-radius: 8px;
+                outline: none;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 10px;
+                border: none;
+                border-radius: 8px;
+                background: #ff7a18;
+                color: white;
+                font-weight: bold;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            .btn:hover {
+                background: #ff5722;
+            }
+
+            .toggle {
+                text-align: center;
+                margin-top: 15px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+
+            .error {
+                color: #ffb3b3;
+                font-size: 12px;
+                margin-top: 5px;
+            }
+
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <!-- LOGIN -->
+            <div id="loginForm">
+                <h2>Login</h2>
+
+                <div class="input-group">
+                    <input type="email" id="loginEmail" placeholder="Email">
+                    <div class="error" id="loginEmailError"></div>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="loginPassword" placeholder="Password">
+                    <div class="error" id="loginPasswordError"></div>
+                </div>
+
+                <button class="btn" onclick="login()">Login</button>
+
+                <div class="toggle" onclick="toggleForm()">
+                    Don't have an account? Sign up
+                </div>
+            </div>
+
+
+            <div id="signupForm" class="hidden">
+                <h2>Sign Up</h2>
+
+                <div class="input-group">
+                    <input type="text" id="name" placeholder="Full Name">
+                </div>
+
+                <div class="input-group">
+                    <input type="email" id="signupEmail" placeholder="Email">
+                    <div class="error" id="signupEmailError"></div>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="signupPassword" placeholder="Password">
+                    <div class="error" id="signupPasswordError"></div>
+                </div>
+
+                <button class="btn" onclick="signup()">Sign Up</button>
+
+                <div class="toggle" onclick="toggleForm()">
+                    Already have an account? Login
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+        <script>
+            // INIT EMAILJS
+            (function () {
+                emailjs.init("15aON7dphcYdkNksz"); // 🔑 replace
+            })();
+
+            function toggleForm() {
+                document.getElementById("loginForm").classList.toggle("hidden");
+                document.getElementById("signupForm").classList.toggle("hidden");
+            }
+
+            function signup() {
+                let name = document.getElementById("name").value;
+                let email = document.getElementById("signupEmail").value;
+                let password = document.getElementById("signupPassword").value;
+
+                let valid = true;
+
+                if (email === "") {
+                    document.getElementById("signupEmailError").innerText = "Email required";
+                    valid = false;
+                } else {
+                    document.getElementById("signupEmailError").innerText = "";
+                }
+
+                if (password.length < 6) {
+                    document.getElementById("signupPasswordError").innerText = "Min 6 characters";
+                    valid = false;
+                } else {
+                    document.getElementById("signupPasswordError").innerText = "";
+                }
+
+                if (valid) {
+
+                    // 📧 SEND EMAIL
+                    emailjs.send("service_4bsdiys", "template_lgmorxc", {
+                        user_name: name,
+                        user_email: email
+                    })
+                        .then(function (response) {
+                            alert("Signup successful! Welcome email sent 🎉");
+                        }, function (error) {
+                            alert("Signup done but email failed 😢");
+                            console.log(error);
+                        });
+
+                }
+            }
+
+            function login() {
+                alert("Login logic comes with backend (for now UI only)");
+            }
+        </script>
+
+    </body>
+
+    </html>
+
+</body>
+
+</html>
